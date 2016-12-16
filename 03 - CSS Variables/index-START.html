@@ -21,6 +21,24 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    /*
+      define base styles for default values
+     */
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      background: var(--base);
+      filter: var(--blur);
+      padding: var(--spacing);
+    }
+
+    .hl {
+      color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -48,6 +66,16 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input'); // find all inputs
+
+    function handleUpdate() {
+      console.log(this.value);
+      const suffix = this.dataset.sizing || ''; // use a prefix data- attribute (spacing, blur) or nothing (hex color)
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate))
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate))
   </script>
 
 </body>
