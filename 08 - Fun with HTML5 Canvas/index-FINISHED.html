@@ -5,61 +5,69 @@
   <title>HTML5 Canvas</title>
 </head>
 <body>
-<canvas id="draw" width="800" height="800"></canvas>
+<canvas id="js-draw" width="800" height="800"></canvas>
 <script>
-const canvas = document.querySelector('#draw');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-ctx.strokeStyle = '#BADA55';
-ctx.lineJoin = 'round';
-ctx.lineCap = 'round';
-ctx.lineWidth = 100;
-// ctx.globalCompositeOperation = 'multiply';
+  
+  const canvas = document.querySelector('#js-draw');
+  const ctx = canvas.getContext('2d'); // have to note if the artwork context is 2d or 3d
+  canvas.width = window.innerWidth; // fill viewport width
+  canvas.height = window.innerHeight; // fill viewport height
+  ctx.strokeStyle = '#BADA55'; // default color
+  ctx.lineJoin = 'round'; // canvas stroke-linejoin options: mitre | round | bevel | inherit
+  ctx.lineCap = 'round'; // canvas stroke-linecap options: butt | round | square | inherit
+  ctx.lineWidth = 100; // brush size
+  // ctx.globalCompositeOperation = 'multiply';
 
-let isDrawing = false;
-let lastX = 0;
-let lastY = 0;
-let hue = 0;
-let direction = true;
+  let isDrawing = false;
+  let lastX = 0; 
+  let lastY = 0;
+  let hue = 0;
+  let direction = true;
 
-function draw(e) {
-  if (!isDrawing) return; // stop the fn from running when they are not moused down
-  console.log(e);
-  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
-  ctx.beginPath();
-  // start from
-  ctx.moveTo(lastX, lastY);
-  // go to
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  [lastX, lastY] = [e.offsetX, e.offsetY];
+  function draw(e) {
+    if (!isDrawing) return; // stop the fn from running when they are not moused down
+      console.log(e);
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.beginPath();
+      // start from
+      ctx.moveTo(lastX, lastY);
+      // go to
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      // destructuring an array, values of lastX, lastY are set in a single line
+      [lastX, lastY] = [e.offsetX, e.offsetY]; // where the mouse ended up when it stopped moving
 
-  hue++;
-  if (hue >= 360) {
-    hue = 0;
+      hue++; // starts at 0 and increments to orange, yellow, green, blue, indigo, violet, back to red
+
+      // hue goes from red (0) to red (360) across the rainbow as the mouse is held down
+      if (hue >= 360) {
+        hue = 0;
+      }
+
+      // Increment 0 to 100, then 100 down to 0
+      if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        direction = !direction;
+      }
+
+      // make the line width thicker or thinner as the mouse is held down
+      if(direction) {
+        ctx.lineWidth++;
+      } else {
+        ctx.lineWidth--;
+      }
+
   }
-  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
-    direction = !direction;
-  }
 
-  if(direction) {
-    ctx.lineWidth++;
-  } else {
-    ctx.lineWidth--;
-  }
-
-}
-
-canvas.addEventListener('mousedown', (e) => {
-  isDrawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
+  // before mousemove mousedown fires, so track lastX, lastY
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  });
 
 
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', () => isDrawing = false);
-canvas.addEventListener('mouseout', () => isDrawing = false);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
 
 </script>
 
