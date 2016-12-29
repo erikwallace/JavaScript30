@@ -11,6 +11,12 @@
   <script>
     const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
 
+    /* 
+     * Dev Tool Tip
+     * If you see something happening but can't find the code here is a trick with Attribute Modifications
+     * With devtools inspect the element > break on... > attribute modifications
+     * This adds a breakpoint and will pause where the line of code is causing the attribute
+     */ 
     function makeGreen() {
       const p = document.querySelector('p');
       p.style.color = '#BADA55';
@@ -20,17 +26,21 @@
     // Regular
     console.log('hello');
 
-    // Interpolated
+    // Interpolated (%s = simple function to replace something in a string)
     console.log('Hello I am a %s string!', '💩');
 
-    // Styled
+    // Backticks do the same thing as the interpolation example above
+    const poo = '💩';
+    console.log(`Hello I am a ${poo} string!`);
+
+    // Styled (%c = lets you style things in the console)
     // console.log('%c I am some great text', 'font-size:50px; background:red; text-shadow: 10px 10px 0 blue')
 
     // warning!
     console.warn('OH NOOO');
 
     // Error :|
-    console.error('Shit!');
+    console.error('Shitballs!');
 
     // Info
     console.info('Crocodiles eat 3-4 people per year');
@@ -44,14 +54,15 @@
     console.clear();
 
     // Viewing DOM Elements
-    console.log(p);
-    console.dir(p);
+    console.log(p); // shows a matching paragraph in the DOM
+    console.dir(p); // dir shows all properties and methods of an object
 
-    console.clear();
+    console.clear(); // clears out the console
 
     // Grouping together
     dogs.forEach(dog => {
-      console.groupCollapsed(`${dog.name}`);
+      // console.group(`${dog.name}`); // expands all of the log
+      // console.groupCollapsed(`${dog.name}`); // puts logged items in a dropdown
       console.log(`This is ${dog.name}`);
       console.log(`${dog.name} is ${dog.age} years old`);
       console.log(`${dog.name} is ${dog.age * 7} dog years old`);
@@ -59,19 +70,18 @@
     });
 
     // counting
-
-    console.count('Wes');
-    console.count('Wes');
-    console.count('Steve');
-    console.count('Steve');
-    console.count('Wes');
-    console.count('Steve');
-    console.count('Wes');
-    console.count('Steve');
-    console.count('Steve');
-    console.count('Steve');
-    console.count('Steve');
-    console.count('Steve');
+    console.count('Ponybuckets');
+    console.count('Bernard');
+    console.count('Madoff');
+    console.count('Madoff');
+    console.count('Bernard');
+    console.count('Madoff');
+    console.count('Bernard');
+    console.count('Madoff');
+    console.count('Madoff');
+    console.count('Madoff');
+    console.count('Madoff');
+    console.count('Madoff');
 
     // timing
     console.time('fetching data');
@@ -82,6 +92,7 @@
         console.log(data);
       });
 
+    // table - for displaying an array in a table
     console.table(dogs);
 
   </script>
